@@ -50,20 +50,6 @@ data.db:
 web.main:
   start: node-start mix phx.server
 
+  # Timex and TZData need to write into priv/
   writable_dirs:
     - priv
-
-
-
-#
-# web.phoenix:
-#   start: node-start mix phx.server
-#   writable_dirs:
-#       - /tmp
-#       - _build
-#   network_dirs:           #| Network Dirs Config
-#     data.storage:         #| Storage Component Designation
-#       - data              #| Network Directory
-#
-# data.storage:             #| Storage Component
-#   image: nanobox/unfs:0.9 #|

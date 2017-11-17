@@ -1,4 +1,4 @@
 defmodule SefazMetrics.Scheduler do
   use Quantum.Scheduler,
-    otp_app: :your_app
+    otp_app: :sefaz_metrics
 end

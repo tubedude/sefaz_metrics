@@ -23,20 +23,12 @@ config :logger, :console,
   metadata: [:request_id]
 
 
+# Configure Quantum 
 config :sefaz_metrics, SefazMetrics.Scheduler,
   jobs: [
-    {"@hourly", SefazMetrics.Data, :fetch_fact, []}
-    # Every minute
-    # {"* * * * *",      {Heartbeat, :send, []}},
-    # Every 15 minutes
-    # {"*/15 * * * *",   fn -> System.cmd("rm", ["/tmp/tmp_"]) end},
-    # Runs on 18, 20, 22, 0, 2, 4, 6:
-    # {"0 18-6/2 * * *", fn -> :mnesia.backup('/var/backup/mnesia') end},
-    # Runs every midnight:
-    # {"@daily",         {Backup, :backup, []}}
+    # {"* * * * *", &SefazMetrics.Data.fetch_fact/0 },
+    {"@hourly", { SefazMetrics.Data, :fetch_fact, []} },
   ]
-
-# config :tzdata, :data_dir, "/etc/elixir_tzdata_data"
 
 
 # Import environment specific config. This must remain at the bottom

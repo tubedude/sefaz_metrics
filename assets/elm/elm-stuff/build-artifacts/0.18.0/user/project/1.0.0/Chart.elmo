@@ -1,0 +1,153 @@
+var _user$project$Chart$data = _elm_lang$html$Html_Attributes$property('data');
+var _user$project$Chart$getChartColorWithDefault = F2(
+	function (index, colors) {
+		var _p0 = A2(_elm_lang$core$Array$get, index, colors);
+		if (_p0.ctor === 'Just') {
+			return _p0._0;
+		} else {
+			return A3(_elm_lang$core$Color$rgb, 0, 0, 255);
+		}
+	});
+var _user$project$Chart$chartColors = _elm_lang$core$Array$fromList(
+	{
+		ctor: '::',
+		_0: A3(_elm_lang$core$Color$rgb, 0, 255, 0),
+		_1: {
+			ctor: '::',
+			_0: A3(_elm_lang$core$Color$rgb, 255, 0, 0),
+			_1: {
+				ctor: '::',
+				_0: A3(_elm_lang$core$Color$rgb, 0, 0, 255),
+				_1: {
+					ctor: '::',
+					_0: A3(_elm_lang$core$Color$rgb, 100, 100, 0),
+					_1: {
+						ctor: '::',
+						_0: A3(_elm_lang$core$Color$rgb, 0, 100, 100),
+						_1: {ctor: '[]'}
+					}
+				}
+			}
+		}
+	});
+var _user$project$Chart_ops = _user$project$Chart_ops || {};
+_user$project$Chart_ops['=>'] = F2(
+	function (v0, v1) {
+		return {ctor: '_Tuple2', _0: v0, _1: v1};
+	});
+var _user$project$Chart$chartToJson = function (c) {
+	var seriesToJson = function (s) {
+		return _elm_lang$core$Json_Encode$object(
+			{
+				ctor: '::',
+				_0: A2(
+					_user$project$Chart_ops['=>'],
+					'id',
+					_elm_lang$core$Json_Encode$string(s.id)),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_user$project$Chart_ops['=>'],
+						'name',
+						_elm_lang$core$Json_Encode$string(s.name)),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_user$project$Chart_ops['=>'],
+							'data',
+							_elm_lang$core$Json_Encode$array(
+								A2(
+									_elm_lang$core$Array$map,
+									function (_p1) {
+										var _p2 = _p1;
+										return _elm_lang$core$Json_Encode$list(
+											{
+												ctor: '::',
+												_0: _elm_lang$core$Json_Encode$float(_p2._0),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$core$Json_Encode$float(_p2._1),
+													_1: {ctor: '[]'}
+												}
+											});
+									},
+									s.data))),
+						_1: {ctor: '[]'}
+					}
+				}
+			});
+	};
+	var series = _elm_lang$core$Json_Encode$list(
+		A2(_elm_lang$core$List$map, seriesToJson, c.series));
+	return _elm_lang$core$Json_Encode$object(
+		{
+			ctor: '::',
+			_0: A2(
+				_user$project$Chart_ops['=>'],
+				'chartType',
+				_elm_lang$core$Json_Encode$string(c.chartType)),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_user$project$Chart_ops['=>'],
+					'title',
+					_elm_lang$core$Json_Encode$string(c.title)),
+				_1: {
+					ctor: '::',
+					_0: A2(_user$project$Chart_ops['=>'], 'series', series),
+					_1: {ctor: '[]'}
+				}
+			}
+		});
+};
+var _user$project$Chart$createChart = function (c) {
+	return A2(
+		_user$project$Native_Chart.toHtml,
+		{
+			ctor: '::',
+			_0: _user$project$Chart$data(
+				_user$project$Chart$chartToJson(c)),
+			_1: {ctor: '[]'}
+		},
+		{ctor: '[]'});
+};
+var _user$project$Chart$Series = F4(
+	function (a, b, c, d) {
+		return {id: a, name: b, color: c, data: d};
+	});
+var _user$project$Chart$ProtoSeries = F2(
+	function (a, b) {
+		return {name: a, data: b};
+	});
+var _user$project$Chart$Chart = F3(
+	function (a, b, c) {
+		return {chartType: a, title: b, series: c};
+	});
+var _user$project$Chart$mkChart = F3(
+	function (chartType, title, protoSeries) {
+		var series = A2(
+			_elm_lang$core$List$map,
+			function (_p3) {
+				var _p4 = _p3;
+				var _p6 = _p4._1;
+				var _p5 = _p4._0;
+				return A4(
+					_user$project$Chart$Series,
+					_elm_lang$core$Basics$toString(_p5),
+					_p6.name,
+					A2(_user$project$Chart$getChartColorWithDefault, _p5, _user$project$Chart$chartColors),
+					_p6.data);
+			},
+			A2(
+				_elm_lang$core$List$indexedMap,
+				F2(
+					function (v0, v1) {
+						return {ctor: '_Tuple2', _0: v0, _1: v1};
+					}),
+				protoSeries));
+		return A3(_user$project$Chart$Chart, chartType, title, series);
+	});
+var _user$project$Chart$mkLineChart = F2(
+	function (title, protoSeries) {
+		return A3(_user$project$Chart$mkChart, 'line', title, protoSeries);
+	});

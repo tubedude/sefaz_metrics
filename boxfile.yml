@@ -1,0 +1,69 @@
+run.config:
+  # elixir runtime
+  engine: elixir
+
+  engine.config:
+    runtime: elixir-1.5
+
+
+  # we need nodejs in development
+  # ensure inotify exists for hot-code reloading
+  dev_packages:
+    - nodejs
+    - inotify-tools
+
+  # cache node_modules
+  cache_dirs:
+    - node_modules
+    - assets/node_modules
+    - assets/elm/elm-stuff
+
+  # add node_module bins to the $PATH
+  extra_path_dirs:
+    - node_modules/.bin
+    - assets/node_modules/.bin
+
+  # enable the filesystem watcher
+  fs_watch: true
+
+  extra_steps:
+    - cd assets && npm install
+    - cd assets/elm && ../node_modules/.bin/elm-package install --yes
+
+
+deploy.config:
+  extra_steps:
+    - mix phoenix.digest
+
+  before_live:
+
+    web.main:
+      - mix ecto.create --quiet
+      - mix ecto.migrate
+
+
+# add postgres as a data component
+data.db:
+  image: nanobox/postgresql
+
+
+web.main:
+  start: node-start mix phx.server
+
+  writable_dirs:
+    - priv
+
+
+
+#
+# web.phoenix:
+#   start: node-start mix phx.server
+#   writable_dirs:
+#       - /tmp
+#       - _build
+#   network_dirs:           #| Network Dirs Config
+#     data.storage:         #| Storage Component Designation
+#       - data              #| Network Directory
+#
+# data.storage:             #| Storage Component
+#   image: nanobox/unfs:0.9 #|

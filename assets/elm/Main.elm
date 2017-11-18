@@ -17,6 +17,7 @@ import RemoteData exposing (WebData, RemoteData)
 import Json.Decode as Decode
 import Json.Decode.Pipeline exposing (decode, required)
 
+
 main : Program Never Model Msg
 main =
   Html.program
@@ -25,7 +26,6 @@ main =
     , subscriptions = subscriptions
     , view = view
     }
-
 
 
 init : (Model, Cmd Msg)
@@ -66,7 +66,7 @@ factDecoder =
 
 -- MSG
 type Msg =
-  OnFetchFacts (WebData (List Fact))
+  OnFetchFacts Model
   | FetchFacts
   | Tick Time
 
@@ -99,7 +99,7 @@ update msg model =
       ( RemoteData.Loading, fetchFacts)
 
     Tick _ ->
-      ( RemoteData.Loading, fetchFacts)
+      ( model, fetchFacts)
 
 
 

@@ -12315,7 +12315,7 @@ var _user$project$Main$update = F2(
 			case 'FetchFacts':
 				return {ctor: '_Tuple2', _0: _krisajenkins$remotedata$RemoteData$Loading, _1: _user$project$Main$fetchFacts};
 			default:
-				return {ctor: '_Tuple2', _0: _krisajenkins$remotedata$RemoteData$Loading, _1: _user$project$Main$fetchFacts};
+				return {ctor: '_Tuple2', _0: model, _1: _user$project$Main$fetchFacts};
 		}
 	});
 var _user$project$Main$main = _elm_lang$html$Html$program(

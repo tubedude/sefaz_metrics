@@ -1,3 +1,26 @@
+var _user$project$Main$viewExtras = A2(
+	_elm_lang$html$Html$div,
+	{ctor: '[]'},
+	{
+		ctor: '::',
+		_0: A2(
+			_elm_lang$html$Html$a,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$href('/api/facts'),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('btn btn-default'),
+					_1: {ctor: '[]'}
+				}
+			},
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text('Get Json'),
+				_1: {ctor: '[]'}
+			}),
+		_1: {ctor: '[]'}
+	});
 var _user$project$Main$makeProtoSeries = F2(
 	function (factType, fact) {
 		var date = _elm_lang$core$Date$toTime(
@@ -38,14 +61,11 @@ var _user$project$Main$displayError = function (error) {
 		case 'NetworkError':
 			return _elm_lang$html$Html$text('NetworkError');
 		case 'BadStatus':
-			return _elm_lang$html$Html$text('Bad Status: ');
+			return _elm_lang$html$Html$text('Bad Status');
 		default:
 			return _elm_lang$html$Html$text(
 				A2(_elm_lang$core$Basics_ops['++'], 'Bad Payload: ', _p1._0));
 	}
-};
-var _user$project$Main$subscriptions = function (model) {
-	return _elm_lang$core$Platform_Sub$none;
 };
 var _user$project$Main$Fact = F3(
 	function (a, b, c) {
@@ -92,7 +112,7 @@ var _user$project$Main$displayChart = function (facts) {
 	return _user$project$Chart$createChart(
 		A2(
 			_user$project$Chart$mkLineChart,
-			'SeFaz',
+			'Brazilian NF-e statistics',
 			_user$project$Main$makeSeries(facts)));
 };
 var _user$project$Main$display = function (model) {
@@ -108,34 +128,6 @@ var _user$project$Main$display = function (model) {
 			return _user$project$Main$displayChart(_p2._0);
 	}
 };
-var _user$project$Main$FetchFacts = {ctor: 'FetchFacts'};
-var _user$project$Main$view_old = A2(
-	_elm_lang$html$Html$div,
-	{ctor: '[]'},
-	{
-		ctor: '::',
-		_0: _elm_lang$html$Html$text('Hello Program'),
-		_1: {
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$a,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$href('#'),
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$FetchFacts),
-						_1: {ctor: '[]'}
-					}
-				},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text('Click to update'),
-					_1: {ctor: '[]'}
-				}),
-			_1: {ctor: '[]'}
-		}
-	});
 var _user$project$Main$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -149,11 +141,18 @@ var _user$project$Main$view = function (model) {
 			_0: _user$project$Main$display(model),
 			_1: {
 				ctor: '::',
-				_0: _user$project$Main$view_old,
+				_0: _user$project$Main$viewExtras,
 				_1: {ctor: '[]'}
 			}
 		});
 };
+var _user$project$Main$Tick = function (a) {
+	return {ctor: 'Tick', _0: a};
+};
+var _user$project$Main$subscriptions = function (model) {
+	return A2(_elm_lang$core$Time$every, _elm_lang$core$Time$hour, _user$project$Main$Tick);
+};
+var _user$project$Main$FetchFacts = {ctor: 'FetchFacts'};
 var _user$project$Main$OnFetchFacts = function (a) {
 	return {ctor: 'OnFetchFacts', _0: a};
 };
@@ -161,15 +160,18 @@ var _user$project$Main$fetchFacts = A2(
 	_elm_lang$core$Platform_Cmd$map,
 	_user$project$Main$OnFetchFacts,
 	_krisajenkins$remotedata$RemoteData$sendRequest(
-		A2(_elm_lang$http$Http$get, 'http://172.21.0.12:4000/api/facts', _user$project$Main$factsDecoder)));
+		A2(_elm_lang$http$Http$get, '/api/facts', _user$project$Main$factsDecoder)));
 var _user$project$Main$init = {ctor: '_Tuple2', _0: _krisajenkins$remotedata$RemoteData$NotAsked, _1: _user$project$Main$fetchFacts};
 var _user$project$Main$update = F2(
 	function (msg, model) {
 		var _p3 = msg;
-		if (_p3.ctor === 'OnFetchFacts') {
-			return {ctor: '_Tuple2', _0: _p3._0, _1: _elm_lang$core$Platform_Cmd$none};
-		} else {
-			return {ctor: '_Tuple2', _0: _krisajenkins$remotedata$RemoteData$Loading, _1: _user$project$Main$fetchFacts};
+		switch (_p3.ctor) {
+			case 'OnFetchFacts':
+				return {ctor: '_Tuple2', _0: _p3._0, _1: _elm_lang$core$Platform_Cmd$none};
+			case 'FetchFacts':
+				return {ctor: '_Tuple2', _0: _krisajenkins$remotedata$RemoteData$Loading, _1: _user$project$Main$fetchFacts};
+			default:
+				return {ctor: '_Tuple2', _0: model, _1: _user$project$Main$fetchFacts};
 		}
 	});
 var _user$project$Main$main = _elm_lang$html$Html$program(

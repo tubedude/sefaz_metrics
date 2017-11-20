@@ -23,11 +23,14 @@ config :logger, :console,
   metadata: [:request_id]
 
 
-# Configure Quantum 
+# Configure Quantum
 config :sefaz_metrics, SefazMetrics.Scheduler,
+  overlap: false,
+  timezone: "America/Sao_Paulo",
+  global: true,
   jobs: [
-    # {"* * * * *", &SefazMetrics.Data.fetch_fact/0 },
-    {"@hourly", { SefazMetrics.Data, :fetch_fact, []} },
+    {"2 8-20 * * *", &SefazMetrics.Data.fetch_fact/0 },
+    # {"@hourly", { SefazMetrics.Data, :fetch_fact, []} },
   ]
 
 

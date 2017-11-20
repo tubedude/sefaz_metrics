@@ -52,4 +52,4 @@ web.main:
 
   # Timex and TZData need to write into priv/
   writable_dirs:
-    - priv
+    - _build/prod/lib/tzdata/priv

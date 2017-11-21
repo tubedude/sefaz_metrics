@@ -29,3 +29,4 @@ npm-debug.log
 # Bad programing practices
 *.bkup
 /assets/elm/elm-stuff
+/assets/js/main.js

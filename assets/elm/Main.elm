@@ -107,13 +107,15 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-  div [class "chart"]
-    [ display model
-    , viewExtras ]
+  div [class "row"]
+  [ div [class "chart col-xs-12"] [ displayGen model displayChart  ]
+  , div [class "chart col-xs-12"] [ displayGen model displayDiff ]
+  , div [class "chart col-xs-12"] [ displayGen model displayDelta ]
+  , viewExtras
+  ]
 
-
-display : Model -> Html Msg
-display model =
+displayGen : Model -> ((List Fact) -> Html Msg) -> Html Msg
+displayGen model f =
   case model of
     RemoteData.NotAsked ->
       text "Did not ask"
@@ -125,7 +127,7 @@ display model =
       displayError error
 
     RemoteData.Success facts ->
-      displayChart facts
+      f facts
 
 
 displayError : Http.Error -> Html Msg
@@ -146,6 +148,47 @@ displayError error =
     Http.BadPayload string _ ->
       text ("Bad Payload: " ++ string)
 
+
+displayDelta : List Fact -> Html Msg
+displayDelta facts =
+  let
+    others = case List.tail facts of
+      Just remFacts ->
+        remFacts
+
+      Nothing ->
+        []
+
+    deltaFacts = convertDelta facts others
+
+  in
+    createChart (mkLineChart "NF-e Delta" (makeSeries deltaFacts))
+
+
+convertDelta : List Fact -> List Fact -> List Fact
+convertDelta facts others =
+  List.map2 (\ a b -> Fact b.date (b.nfeQuant - a.nfeQuant) (b.emitterQuant - a.emitterQuant)) facts others
+
+
+displayDiff : (List Fact) -> Html Msg
+displayDiff facts =
+  let
+    firstFact = case List.head facts of
+      Just fact ->
+        fact
+
+      Nothing ->
+        Fact "2017-11-17" 0 0
+
+    diffFacts =
+      facts
+      |> List.map (convertDiff firstFact)
+  in
+    createChart (mkLineChart "NF-e Diff" (makeSeries diffFacts))
+
+convertDiff : Fact -> Fact -> Fact
+convertDiff firstFact fact =
+  Fact fact.date (fact.nfeQuant - firstFact.nfeQuant) (fact.emitterQuant - firstFact.emitterQuant)
 
 displayChart : (List Fact) -> Html Msg
 displayChart facts =

@@ -28,11 +28,13 @@ run.config:
 
   extra_steps:
     - cd assets && npm install
-    - cd assets/elm && ../node_modules/.bin/elm-package install --yes
+    - cd assets/elm && ../node_modules/.bin/elm-package install elm-lang/html --yes
 
 
 deploy.config:
   extra_steps:
+    - cd assets/elm && ../node_modules/.bin/elm-package install --yes
+    - cd assets && brunch build --production
     - mix phoenix.digest
 
   before_live:

@@ -111,8 +111,29 @@ view model =
   [ div [class "chart col-xs-12"] [ displayGen model displayChart  ]
   , div [class "chart col-xs-12"] [ displayGen model displayDiff ]
   , div [class "chart col-xs-12"] [ displayGen model displayDelta ]
+  , Html.iframe
+    [Html.Attributes.src "https://exploratory.io/viz/3828361826296546/4251968259506836?embed=true"
+    , Html.Attributes.width 800
+    , Html.Attributes.height 600
+    , frameborder 0
+    ] []
   , viewExtras
   ]
+
+frameborder : Int -> Html.Attribute msg
+frameborder borderSize =
+  Html.Attributes.attribute "frameborder" (toString borderSize)
+
+
+-- widthString : String -> Html.Attribute msg
+-- widthString sizeString =
+--   Html.Attributes.attribute "width" sizeString
+--
+-- heightString : String -> Html.Attribute msg
+-- heightString sizeString =
+--   Html.Attributes.attribute "height" sizeString
+
+
 
 displayGen : Model -> ((List Fact) -> Html Msg) -> Html Msg
 displayGen model f =

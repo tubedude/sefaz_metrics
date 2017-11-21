@@ -109,7 +109,7 @@ view : Model -> Html Msg
 view model =
   div [class "row"]
   [ div [class "chart col-xs-12"] [ displayGen model displayChart  ]
-  , div [class "chart col-xs-12"] [ displayGen model displayDiff ]
+  -- , div [class "chart col-xs-12"] [ displayGen model displayDiff ]
   , div [class "chart col-xs-12"] [ displayGen model displayDelta ]
   , Html.iframe
     [Html.Attributes.src "https://exploratory.io/viz/3828361826296546/4251968259506836?embed=true"
@@ -132,7 +132,6 @@ frameborder borderSize =
 -- heightString : String -> Html.Attribute msg
 -- heightString sizeString =
 --   Html.Attributes.attribute "height" sizeString
-
 
 
 displayGen : Model -> ((List Fact) -> Html Msg) -> Html Msg
@@ -183,7 +182,8 @@ displayDelta facts =
     deltaFacts = convertDelta facts others
 
   in
-    createChart (mkLineChart "NF-e Delta" (makeSeries deltaFacts))
+    createChart ( mkLineChart "NF-e Delta" [convert deltaFacts Nfe] )
+
 
 
 convertDelta : List Fact -> List Fact -> List Fact

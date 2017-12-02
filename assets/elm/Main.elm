@@ -108,30 +108,36 @@ update msg model =
 view : Model -> Html Msg
 view model =
   div [class "row"]
-  [ div [class "chart col-xs-12"] [ displayGen model displayChart  ]
+  [ div [class "chart col-xs-12"] [ displayGen model (displaySpecificChart "Brazilian NF-e statistics" Nfe)  ]
   -- , div [class "chart col-xs-12"] [ displayGen model displayDiff ]
   , div [class "chart col-xs-12"] [ displayGen model displayDelta ]
-  , Html.iframe
-    [Html.Attributes.src "https://exploratory.io/viz/3828361826296546/4251968259506836?embed=true"
-    , Html.Attributes.width 800
-    , Html.Attributes.height 600
-    , frameborder 0
-    ] []
+  , div [class "chart col-xs-12"] [ Html.iframe
+      [Html.Attributes.src "https://exploratory.io/viz/3828361826296546/4251968259506836?embed=true"
+      -- , Html.Attributes.width 730
+      , Html.Attributes.height 400
+      , widthString "100%"
+      -- , heightString "100%"
+      , frameborder 0
+      ] []
+    ]
+  , div [class "chart col-xs-12"] [ displayGen model (displaySpecificChart "Brazilian NF-e Emitter statistics" Emitter)]
   , viewExtras
   ]
+
 
 frameborder : Int -> Html.Attribute msg
 frameborder borderSize =
   Html.Attributes.attribute "frameborder" (toString borderSize)
 
 
--- widthString : String -> Html.Attribute msg
--- widthString sizeString =
---   Html.Attributes.attribute "width" sizeString
---
--- heightString : String -> Html.Attribute msg
--- heightString sizeString =
---   Html.Attributes.attribute "height" sizeString
+widthString : String -> Html.Attribute msg
+widthString sizeString =
+  Html.Attributes.attribute "width" sizeString
+
+
+heightString : String -> Html.Attribute msg
+heightString sizeString =
+  Html.Attributes.attribute "height" sizeString
 
 
 displayGen : Model -> ((List Fact) -> Html Msg) -> Html Msg
@@ -185,7 +191,6 @@ displayDelta facts =
     createChart ( mkLineChart "NF-e Delta" [convert deltaFacts Nfe] )
 
 
-
 convertDelta : List Fact -> List Fact -> List Fact
 convertDelta facts others =
   List.map2 (\ a b -> Fact b.date (b.nfeQuant - a.nfeQuant) (b.emitterQuant - a.emitterQuant)) facts others
@@ -211,9 +216,15 @@ convertDiff : Fact -> Fact -> Fact
 convertDiff firstFact fact =
   Fact fact.date (fact.nfeQuant - firstFact.nfeQuant) (fact.emitterQuant - firstFact.emitterQuant)
 
+
 displayChart : (List Fact) -> Html Msg
 displayChart facts =
   createChart (mkLineChart "Brazilian NF-e statistics" (makeSeries facts))
+
+
+displaySpecificChart : String -> FactType -> (List Fact) -> Html Msg
+displaySpecificChart title factType facts=
+  createChart (mkLineChart title [convert facts factType ])
 
 
 makeSeries : List Fact -> List ProtoSeries

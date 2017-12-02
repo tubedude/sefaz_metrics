@@ -12,8 +12,7 @@ config :logger, level: :warn
 # Configure your database
 config :sefaz_metrics, SefazMetrics.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "sefaz_metrics_test",
-  hostname: "localhost",
+  username: System.get_env("DATA_DB_USER"),
+  password: System.get_env("DATA_DB_PASS"),
+  hostname: System.get_env("DATA_DB_HOST"),
   pool: Ecto.Adapters.SQL.Sandbox

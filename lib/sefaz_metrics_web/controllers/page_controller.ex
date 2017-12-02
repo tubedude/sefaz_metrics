@@ -7,7 +7,9 @@ defmodule SefazMetricsWeb.PageController do
 
   def fetch(conn, _params) do
     SefazMetrics.Data.fetch_fact()
-    redirect conn, to: "/"
+    conn
+    |> put_flash(:info, "Fetch successful")
+    |> redirect(to: "/")
   end
 
 

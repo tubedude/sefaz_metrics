@@ -4,7 +4,7 @@ run.config:
 
   engine.config:
     runtime: elixir-1.5
-    erlang_runtime: erlang-20
+    erlang_runtime: erlang-20.1.7
 
 
   # we need nodejs in development
@@ -34,7 +34,7 @@ deploy.config:
   extra_steps:
     - cd assets/elm && ../node_modules/.bin/elm-package install --yes
     - brunch build --production ./assets
-    - mix phoenix.digest
+    - mix phx.digest
 
   before_live:
 

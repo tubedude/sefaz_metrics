@@ -8,7 +8,7 @@
     <meta name="author" content="Roberto">
 
     <title>Brazilian Nfe statistics</title>
-    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <link async rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
   <body>
@@ -22,7 +22,7 @@
       </main>
 
     </div> <!-- /container -->
-    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script async src="https://code.highcharts.com/highcharts.js"></script>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>

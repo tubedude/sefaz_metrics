@@ -1,6 +1,8 @@
 defmodule SefazMetricsWeb.PageController do
   use SefazMetricsWeb, :controller
 
+  plug :secure_cache_headers
+
   def index(conn, _params) do
     render conn, "index.html"
   end
@@ -12,5 +14,9 @@ defmodule SefazMetricsWeb.PageController do
     |> redirect(to: "/")
   end
 
+  defp secure_cache_headers(conn, _) do
+    Plug.Conn.put_resp_header(conn, "cache-control", "public")
+    Plug.Conn.put_resp_header(conn, "pragma", "public")
+  end
 
 end

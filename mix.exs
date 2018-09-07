@@ -4,8 +4,8 @@ defmodule SefazMetrics.Mixfile do
   def project do
     [
       app: :sefaz_metrics,
-      version: "0.0.1",
-      elixir: "~> 1.4",
+      version: "0.0.2",
+      elixir: "~> 1.6",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -33,9 +33,9 @@ defmodule SefazMetrics.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.3.4"},
+      {:phoenix, "~> 1.3"},
       {:phoenix_pubsub, "~> 1.0"},
-      {:phoenix_ecto, "~> 3.2"},
+      {:phoenix_ecto, "~> 3.4"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 2.12"},
       {:phoenix_live_reload, "~> 1.1", only: :dev},

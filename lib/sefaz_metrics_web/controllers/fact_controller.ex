@@ -4,7 +4,7 @@ defmodule SefazMetricsWeb.FactController do
   alias SefazMetrics.Data
   alias SefazMetrics.Data.Fact
 
-  action_fallback SefazMetricsWeb.FallbackController
+  action_fallback(SefazMetricsWeb.FallbackController)
 
   def index(conn, _params) do
     facts = Data.list_facts()
@@ -35,6 +35,7 @@ defmodule SefazMetricsWeb.FactController do
 
   def delete(conn, %{"id" => id}) do
     fact = Data.get_fact!(id)
+
     with {:ok, %Fact{}} <- Data.delete_fact(fact) do
       send_resp(conn, :no_content, "")
     end

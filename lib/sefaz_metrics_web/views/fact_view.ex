@@ -11,9 +11,6 @@ defmodule SefazMetricsWeb.FactView do
   end
 
   def render("fact.json", %{fact: fact}) do
-    %{id: fact.id,
-      date: fact.date,
-      nfe_quant: fact.nfe_quant,
-      emitter_quant: fact.emitter_quant}
+    %{id: fact.id, date: fact.date, nfe_quant: fact.nfe_quant, emitter_quant: fact.emitter_quant}
   end
 end

@@ -3,11 +3,10 @@ defmodule SefazMetrics.Data.Fact do
   import Ecto.Changeset
   alias SefazMetrics.Data.Fact
 
-
   schema "facts" do
-    field :date, :date
-    field :emitter_quant, :float
-    field :nfe_quant, :float
+    field(:date, :date)
+    field(:emitter_quant, :float)
+    field(:nfe_quant, :float)
 
     timestamps()
   end

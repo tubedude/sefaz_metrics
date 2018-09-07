@@ -14,7 +14,7 @@ defmodule SefazMetrics.Application do
       supervisor(SefazMetricsWeb.Endpoint, []),
       # Start your own worker by calling: SefazMetrics.Worker.start_link(arg1, arg2, arg3)
       # worker(SefazMetrics.Worker, [arg1, arg2, arg3]),
-      worker(SefazMetrics.Scheduler, []),
+      worker(SefazMetrics.Scheduler, [])
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

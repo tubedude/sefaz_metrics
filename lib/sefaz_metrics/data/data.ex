@@ -20,7 +20,6 @@ defmodule SefazMetrics.Data do
 
       {:error, _msg} ->
         {:error, change_fact(%Fact{})}
-
     end
   end
 
@@ -28,8 +27,9 @@ defmodule SefazMetrics.Data do
     case Repo.get_by(Fact, date: fact_attr.date) do
       nil ->
         create_fact(fact_attr)
+
       fact ->
-        update_fact(fact, fact_attr )
+        update_fact(fact, fact_attr)
     end
   end
 

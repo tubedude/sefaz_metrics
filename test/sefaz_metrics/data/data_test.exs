@@ -65,5 +65,15 @@ defmodule SefazMetrics.DataTest do
       fact = fact_fixture()
       assert %Ecto.Changeset{} = Data.change_fact(fact)
     end
+
+    test "facts are listed ordered by date" do
+      fact1 = fact_fixture(date: ~D[2010-04-17])
+      fact2 = fact_fixture(date: ~D[2010-10-10])
+      fact3 = fact_fixture(date: ~D[2018-10-10])
+      fact4 = fact_fixture(date: ~D[2001-10-10])
+
+      assert Data.list_facts() == [fact4, fact1, fact2, fact3]
+
+    end
   end
 end

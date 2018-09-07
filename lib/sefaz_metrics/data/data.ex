@@ -43,7 +43,9 @@ defmodule SefazMetrics.Data do
 
   """
   def list_facts do
-    Repo.all(Fact)
+    query = from f in Fact,
+       order_by: [asc: f.date]
+    Repo.all(query)
   end
 
   def get_fact!(id) do
